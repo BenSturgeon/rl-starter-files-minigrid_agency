@@ -7,7 +7,6 @@ import hashlib
 import torch
 import numpy as np
 from copy import deepcopy
-# Parse arguments
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -22,17 +21,6 @@ class NumpyEncoder(json.JSONEncoder):
             return super(NumpyEncoder, self).default(obj)
 
 
-# def convert_types(obj):
-#     if isinstance(obj, np.integer):
-#         return int(obj)
-#     elif isinstance(obj, np.floating):
-#         return float(obj)
-#     elif isinstance(obj, np.ndarray):
-#         return obj.tolist()
-#     elif isinstance(obj, dict):
-#         return {k: convert_types(v) for k, v in obj.items()}
-#     else:
-#         return obj
 
 def hash_state(state):
     state_string = json.dumps(state, cls=NumpyEncoder, sort_keys=True).encode('utf-8')
@@ -74,6 +62,7 @@ def dfs(env, state, agent, depth):
     
     return all_states
 
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("--env", required=True,
                     help="name of the environment to be run (REQUIRED)")
@@ -121,30 +110,17 @@ if args.gif:
     from array2gif import write_gif
     frames = []
 
-# env.render()  # Create a window to view the environment
-
-
-
-# # Initialize data structure to store state, action pairs and the number of states at each step
-# state_action_pairs = {}
-# state_action_result = {}
-# num_states_per_step = []
 
 for episode in range(args.episodes):
     obs, _ = env.reset()
 
     while True:
-        # env.render()
-
-        
-
-        # next_states now contains a dictionary of possible states at t+1, t+2, etc.
-        # You can process next_states as needed for your specific use case
 
 
         action = agent.get_action(obs)
         obs, reward, terminated, truncated, _ = env.step(action)
-        
+
+        # next_states now contains a dictionary of possible states at t+1, t+2, etc.        
         next_states =  dfs(env, obs, agent, depth=3)
         print(len(next_states))
 
