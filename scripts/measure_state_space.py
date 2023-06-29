@@ -121,7 +121,7 @@ for episode in range(args.episodes):
         obs, reward, terminated, truncated, _ = env.step(action)
 
         # next_states now contains a dictionary of possible states at t+1, t+2, etc.        
-        next_states =  dfs(env, obs, agent, depth=3)
+        next_states =  dfs(env, obs, agent, depth=4)
         print(len(next_states))
 
         done = terminated | truncated
